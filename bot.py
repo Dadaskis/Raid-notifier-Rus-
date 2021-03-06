@@ -11,7 +11,7 @@ import logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                      level=logging.INFO)
 
-updater = Updater(token='1693637599:AAFOoMBysdzdmE-4X4Rdlijv47OCyZqC_aA', use_context=True)
+updater = Updater(token='place_yo_token_here', use_context=True)
 
 dispatcher = updater.dispatcher
 
@@ -124,6 +124,8 @@ def create_notification(update, context):
 	timezone = pytz.timezone("Europe/Moscow")
 	time = timezone.localize(time, is_dst = None).astimezone(tz.gettz("Europe/Moscow"))
 	message = text.replace(time_string, "").strip()
+	if len(message) == 0:
+		send_to_chat(context, update, "Обьявление должно содержать сообщение. Сообщением являются любые слова после указанного времени.")
 	save_notification(time, message, update.effective_chat.id)
 	send_to_chat(context, update, "Осталось до обьявления: " + str(time - datetime.datetime.now(tz.gettz("Europe/Moscow"))))
 	
